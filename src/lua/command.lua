@@ -41,7 +41,19 @@ local function cmd_run(cmd, args, cfg)
   end, 'parsing command-line arguments')
   local cmd, cfg = p.cmd, p.cfg
 
-  if cfg.show_help then io.stderr:write(p.cl.doc, '\n'); return end
+  if cfg.show_help then
+    io.stderr:write(p.cl.doc, '\n')
+    if cmd.subcommands then
+      local ns = {}
+      for n, _ in pairs(cmd.subcommands) do table.insert(ns, n) end
+      table.sort(ns)
+      io.stderr:write '\navailable subcommands:\n'
+      for _, n in ipairs(ns) do
+        io.stderr:write('* ', n, '\n')
+      end
+    end
+    return
+  end
 
   -- run pre-hooks, handler, and post-hooks
   local function run_hook(which, c, sel)
