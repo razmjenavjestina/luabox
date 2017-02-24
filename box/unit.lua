@@ -1,7 +1,7 @@
 local unit = {}
 
-local lbx = require 'luabox'
-local exc = lbx.exceptions
+local lbx = require 'box'
+local exc = require 'exc'
 
 local units = {}
 
@@ -36,8 +36,9 @@ end
 
 local function find_unit(name)
   for _, templ in ipairs(unit_paths) do
-    local path = lbx.utils.readlink(templ:gsub('?', name), 'e')
-    if path then return path end
+    local fpath = templ:gsub('?', name)
+    local f = io.open(fpath)
+    if f then f:close(); return fpath end
   end
 end
 

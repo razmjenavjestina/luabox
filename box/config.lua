@@ -1,7 +1,7 @@
 local config = {}
 
-local lbx = require 'luabox'
-local exc = lbx.exceptions
+local lbx = require 'box'
+local exc = require 'exc'
 
 -- variable types
 
@@ -160,7 +160,8 @@ deftype('subcommand', setmetatable({
 
 deftype('datetime', setmetatable({
   luatype = 'number',
-  parse = function(_, s) return lbx.utils.date(s) end,
+  -- TODO(frane): proper date handling
+  parse = function(_, s) return tonumber(s) end,
 }, typ_mt))
 
 deftype('filepath', setmetatable({

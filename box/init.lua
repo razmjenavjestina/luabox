@@ -4,7 +4,7 @@ local lbx = {}
 
 setmetatable(lbx, {
   __index = function(t, n)
-    local m = require('luabox.'..n)
+    local m = require('box.'..n)
     t[n] = m
     return m
   end

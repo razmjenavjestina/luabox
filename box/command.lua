@@ -1,7 +1,7 @@
 local command = {}
 
-local lbx = require 'luabox'
-local exc = lbx.exceptions
+local lbx = require 'box'
+local exc = require 'exc'
 
 local hook_ = {}
 local hook_mt = {__index = hook_}

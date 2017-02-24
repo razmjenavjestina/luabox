@@ -1,7 +1,7 @@
 local cmdline = {}
 
-local lbx = require 'luabox'
-local exc = lbx.exceptions
+local lbx = require 'box'
+local exc = require 'exc'
 
 local function attrs(s, offs)
   offs = offs or 1
