@@ -24,7 +24,7 @@ build = {
       ['box.unit']    = 'box/unit.lua',
     },
     bin = {
-      ['luabox']      = 'luabox.lua',
+      ['luabox']      = 'bin/luabox',
     },
   },
 }
