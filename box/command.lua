@@ -93,7 +93,7 @@ end; cmd_.before_any = cmd_before_any
 
 local root = make {
   cmdline = (lbx.cmdline.command [[
-lualbx global options:
+luabox global options:
 
 --
 

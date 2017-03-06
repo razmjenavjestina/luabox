@@ -15,15 +15,5 @@ exc.exit_on_exception(function()
     lbx.unit(name):install()
     return self.subcommands[name]
   end
-  root:before_any(function(cfg)
-    if cfg.debug then
-      --local f = io.popen('jq -C . >&2', 'w')
-      --local rj = require 'rapidjson'
-      --f:write(rj.encode(cfg))
-      --f:close()
-      -- TODO(frane): something more generic
-      print(cfg) -- :)
-    end
-  end)
   root:run(args)
 end)
