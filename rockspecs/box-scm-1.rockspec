@@ -1,17 +1,18 @@
 package = 'box'
 version = 'scm-1'
 source = {
-  url = 'git://github.com/tvbeat/luabox.git',
+  url = 'git://github.com/razmjenavjestina/luabox.git',
   branch = 'master',
 }
 description = {
   summary = 'Lua Box',
   detailed = 'Lua Box',
-  homepage = 'https://github.com/tvbeat/luabox',
+  homepage = 'https://gitlab.com/razmjenavjestina/luabox',
   license = 'MIT',
 }
 dependencies = {
-  "lua >= 5.1"
+  "lua >= 5.1",
+  "exc",
 }
 build = {
   type = 'none',
