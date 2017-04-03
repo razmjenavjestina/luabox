@@ -160,8 +160,19 @@ deftype('subcommand', setmetatable({
 
 deftype('datetime', setmetatable({
   luatype = 'number',
-  -- TODO(frane): proper date handling
-  parse = function(_, s) return tonumber(s) end,
+  parse = function(_, s)
+    local t
+    if s:sub(1, 1) == '@' then
+      t = tonumber(s:sub(2))
+    else
+      local cmd = string.format('date -d "%s" "%s" 2>/dev/null', s, '+%s')
+      local f = io.popen(cmd)
+      t = tonumber(f:read())
+      f:close()
+    end
+    exc.assert(t, 'invalid date: %s', s)
+    return t
+  end,
 }, typ_mt))
 
 deftype('filepath', setmetatable({
