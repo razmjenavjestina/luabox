@@ -167,10 +167,10 @@ deftype('datetime', setmetatable({
     else
       local cmd = string.format('date -d "%s" "%s" 2>/dev/null', s, '+%s')
       local f = io.popen(cmd)
-      t = tonumber(f:read())
+      t = tonumber(f:read '*a')
       f:close()
     end
-    exc.assert(t, 'invalid date: %s', s)
+    exc.assert(type(t) == 'number', 'invalid date: %s', s)
     return t
   end,
 }, typ_mt))
