@@ -175,6 +175,32 @@ deftype('datetime', setmetatable({
   end,
 }, typ_mt))
 
+local duration_units = {
+  s = 1,
+  m = 60,
+  h = 60 * 60,
+  d = 60 * 60 * 24,
+}
+
+deftype('duration', setmetatable({
+  luatype = 'number',
+  parse = function(_, s)
+    local d = 0
+    local j = 1
+    while j and j <= #s do
+      local k = s:find('[^0-9]', j)
+      exc.assert(not j or (j < k), 'invalid duration: %s', s)
+      local n = tonumber(s:sub(j, k and k - 1 or nil))
+      exc.assert(type(n) == 'number', 'invalid duration: %s', s)
+      local u = duration_units[k and s:sub(k, k) or 's']
+      exc.assert(type(u) == 'number', 'invalid duration: %s', s)
+      d = d + n * u
+      j = k and k + 1
+    end
+    return d
+  end,
+}, typ_mt))
+
 deftype('filepath', setmetatable({
   luatype = 'string',
   parse = function(_, s) return s end,
