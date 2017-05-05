@@ -204,7 +204,7 @@ local function option(spec)
     else
       local r = {}
       for _, v in ipairs(spec.metavars) do
-        r[v.name] = v.typ
+        r[v.name:lower():gsub('-', '_')] = v.typ
       end
       typ = lbx.config.record(r)
     end
