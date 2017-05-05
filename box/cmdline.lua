@@ -115,7 +115,13 @@ local function optspec(s)
 
     if dash2 and len == 2 then
       for key, val in pairs(attrs(s, q + 2)) do
-        if opt_attrs[key] then spec[key] = val
+        if key == 'default' and #mv > 1 then
+          local ss = {}
+          for s in val:gmatch '[^ \t]+' do table.insert(ss, s) end
+          exc.assert(#ss == #mv, 'number of defaults does not match metavars')
+          spec.default = {}
+          for j = 1, #mv do spec.default[mv[j].var] = ss[j] end
+        elseif opt_attrs[key] then spec[key] = val
         else lbx.warn('unknown option attribute: %s', key) end
       end
       break
