@@ -31,6 +31,10 @@ local function attrs(s, offs)
   return x
 end
 
+local function luaname(s)
+  return s:lower():gsub('-', '_')
+end
+
 -- argslists
 
 local args_ = {}
@@ -126,10 +130,10 @@ local function optspec(s)
       local v = {}
       local colon = s:find(':', k, true)
       if colon and colon <= q then
-        v.name = s:sub(k, colon - 1)
+        v.name = luaname(s:sub(k, colon - 1))
         v.typ  = s:sub(colon + 1, q)
       else
-        v.name = s:sub(k, q)
+        v.name = luaname(s:sub(k, q))
         v.typ  = 'string'
       end
       table.insert(mv, v)
@@ -168,9 +172,9 @@ local function option(spec)
   local name = spec.name
   if not name then
     if #spec.lopts > 0 then
-      name = spec.lopts[1]:gsub('-', '_')
+      name = luaname(spec.lopts[1])
     elseif #spec.sopts == 0 and #spec.metavars == 1 then
-      name = spec.metavars[1].name:lower():gsub('-', '_')
+      name = luaname(spec.metavars[1].name)
     else
       error('option name missing for: '..spec.proto)
     end
@@ -204,7 +208,7 @@ local function option(spec)
     else
       local r = {}
       for _, v in ipairs(spec.metavars) do
-        r[v.name:lower():gsub('-', '_')] = v.typ
+        r[v.name] = v.typ
       end
       typ = lbx.config.record(r)
     end
