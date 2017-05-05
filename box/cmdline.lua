@@ -130,12 +130,13 @@ local function optspec(s)
       local v = {}
       local colon = s:find(':', k, true)
       if colon and colon <= q then
-        v.name = luaname(s:sub(k, colon - 1))
+        v.name = s:sub(k, colon - 1)
         v.typ  = s:sub(colon + 1, q)
       else
-        v.name = luaname(s:sub(k, q))
+        v.name = s:sub(k, q)
         v.typ  = 'string'
       end
+      v.var = luaname(v.name)
       table.insert(mv, v)
     else
       error('invalid option spec: '..s:sub(k, q), 0)
@@ -174,7 +175,7 @@ local function option(spec)
     if #spec.lopts > 0 then
       name = luaname(spec.lopts[1])
     elseif #spec.sopts == 0 and #spec.metavars == 1 then
-      name = luaname(spec.metavars[1].name)
+      name = spec.metavars[1].var
     else
       error('option name missing for: '..spec.proto)
     end
@@ -208,7 +209,7 @@ local function option(spec)
     else
       local r = {}
       for _, v in ipairs(spec.metavars) do
-        r[v.name] = v.typ
+        r[v.var] = v.typ
       end
       typ = lbx.config.record(r)
     end
@@ -449,7 +450,7 @@ local function prsr_feed_bare(p, arg)
       p.opt = nil
     else
       local v = p.opt.metavars[p.next_arg]
-      p.val[v.name] = arg
+      p.val[v.var] = arg
       if p.next_arg < #p.opt.metavars then
         p.next_arg = p.next_arg + 1
       else
