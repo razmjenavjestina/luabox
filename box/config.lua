@@ -165,7 +165,7 @@ deftype('datetime', setmetatable({
     if s:sub(1, 1) == '@' then
       t = tonumber(s:sub(2))
     else
-      local cmd = string.format('date -d "%s" "%s" 2>/dev/null', s, '+%s')
+      local cmd = string.format('TZ=UTC date -d "%s" "%s" 2>/dev/null', s, '+%s')
       local f = io.popen(cmd)
       t = tonumber(f:read '*a')
       f:close()
